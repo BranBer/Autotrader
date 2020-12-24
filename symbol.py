@@ -15,9 +15,12 @@ class TradingPosition:
         self.api = api
         self.anim = None
         account = self.api.get_account()
+        self.cash = float(account.cash)
         self.percent_cash = math.floor(float(account.cash) * float(cash_percentage))
 
         self.fig, self.ax = plt.subplots()
+        self.fig.suptitle(self.symbol, fontsize=16)
+        self.logFileName = "algoautotrading.log"
 
     def run_algorithmic_trader(self):
         symbol = self.symbol
@@ -44,9 +47,6 @@ class TradingPosition:
 
         upper_band = list(filter(lambda i: not pd.isna(i), upper.tolist()))
         lower_band = list(filter(lambda i: not pd.isna(i), lower.tolist()))        
-
-        self.ax.set_title(symbol)
-
 
         def animate(i):
             now = datetime.datetime.now()
